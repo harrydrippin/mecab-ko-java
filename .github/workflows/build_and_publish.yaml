@@ -12,8 +12,8 @@ jobs:
           java-version: 13-ea
       - name: Preparation for build
         run: |
-          apt-get update -y
-          apt-get install -y swig
+          sudo apt-get update -y
+          sudo apt-get install -y swig
       - name: Build interface with SWIG
         run: |
           cd swig && make java
