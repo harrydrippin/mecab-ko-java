@@ -7,7 +7,7 @@ public class MeCabLoader {
         System.out.println("Loading MeCab library...");
         String targetFolder = "/lib";
         String libraryFileName = "libMeCab";
-        if (System.getProperty("os.name").indexOf("mac") >= 0) {
+        if (System.getProperty("os.name").indexOf("Mac") >= 0) {
             System.out.println("Environment macOS detected.");
             libraryFileName += ".dylib";
         } else {
