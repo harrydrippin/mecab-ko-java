@@ -104,4 +104,5 @@ jobs:
           chmod 755 run-build.sh
           ./run-build.sh
       - name: Publish to Github Packages
-        run: gradle publish
+        working-directory: jni-interface
+        run: USERNAME=harrydrippin gradle publish
