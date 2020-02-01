@@ -5,11 +5,6 @@ plugins {
 publishing {
   publications {
     maven(MavenPublication) {
-      groupId = 'io.github.harrydrippin'
-      artifactId = 'mecab-ko-java'
-      version = '1.0.0'
-
-
       artifact 'MeCab.jar'
     }
   }
@@ -18,8 +13,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/harrydrippin/mecab-ko-java")
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
