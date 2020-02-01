@@ -16,14 +16,12 @@ jobs:
           sudo apt-get install -y swig
       - name: Build interface with SWIG
         working-directory: swig
-        run: |
-          make java
-          zip -r ../swig-result.zip ../java
+        run: make java
       - name: Store JNI interface as artifact
         uses: actions/upload-artifact@v1
         with:
           name: jni-interface
-          path: swig-result.zip
+          path: java
   
   build-library-linux:
     name: MeCab library build - Linux
@@ -34,10 +32,8 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: jni-interface
-      - name: Unzip
-        run: unzip jni-interface.zip
       - name: Build library
-        working-directory: java
+        working-directory: jni-interface
         run: ./run-linux.sh
       - name: Store library as artifact
         uses: actions/upload-artifact@v1
@@ -54,10 +50,8 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: jni-interface
-      - name: Unzip
-        run: unzip jni-interface.zip
       - name: Build library
-        working-directory: java
+        working-directory: jni-interface
         run: ./run-macos.sh
       - name: Store library as artifact
         uses: actions/upload-artifact@v1
