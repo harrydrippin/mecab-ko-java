@@ -7,10 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Setup OpenJDK 13
-        uses: joschi/setup-jdk@v1
+        uses: actions/setup-java@v1
         with:
-          java-version: openjdk13
-          architecture: x64
+          java-version: 13-ea
       - name: Preparation for build
         run: |
           apt-get update -y
@@ -69,10 +68,9 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Setup OpenJDK 13
-        uses: joschi/setup-jdk@v1
+        uses: actions/setup-java@v1
         with:
-          java-version: openjdk13
-          architecture: x64
+          java-version: 13-ea
       - name: Download JNI interface
         uses: actions/download-artifact@v1
         with:
