@@ -3,7 +3,7 @@ package org.chasen.mecab;
 import java.io.File;
 
 public class MeCabLoader {
-    public static void initialize() {
+    public static synchronized void initialize(String osName) {
         System.out.println("Loading MeCab library...");
         String targetFolder = "/lib";
         String libraryFileName = "libMeCab";
