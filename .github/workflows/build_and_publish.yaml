@@ -15,9 +15,10 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y swig
       - name: Build interface with SWIG
+        working-directory: swig
         run: |
-          cd swig && make java
-          zip -r swig-result.zip java
+          make java
+          zip -r ../swig-result.zip ../java
       - name: Store JNI interface as artifact
         uses: actions/upload-artifact@v1
         with:
@@ -33,10 +34,11 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: jni-interface
-      - name: Unzip and build
-        run: |
-          unzip jni-interface.zip
-          cd java && ./run-linux.sh
+      - name: Unzip
+        run: unzip jni-interface.zip
+      - name: Build library
+        working-directory: java
+        run: ./run-linux.sh
       - name: Store library as artifact
         uses: actions/upload-artifact@v1
         with:
@@ -52,10 +54,11 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: jni-interface
-      - name: Unzip and build
-        run: |
-          unzip jni-interface.zip
-          cd java && ./run-macos.sh
+      - name: Unzip
+        run: unzip jni-interface.zip
+      - name: Build library
+        working-directory: java
+        run: ./run-macos.sh
       - name: Store library as artifact
         uses: actions/upload-artifact@v1
         with:
@@ -76,8 +79,7 @@ jobs:
         with:
           name: jni-interface
       - name: Unzip JNI interface
-        run: |
-          unzip jni-interface.zip
+        run: unzip jni-interface.zip
       - name: Download prebuilt library - Linux
         uses: actions/download-artifact@v1
         with:
@@ -87,6 +89,7 @@ jobs:
         with:
           name: mecab-library-macos
       - name: Build JAR
-        run: cd java && ./run-build.sh
+        working-directory: java
+        run: ./run-build.sh
       - name: Check the result
         run: ls -al java
