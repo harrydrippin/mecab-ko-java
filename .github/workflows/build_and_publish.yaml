@@ -100,6 +100,8 @@ jobs:
           path: jni-interface
       - name: Build JAR
         working-directory: jni-interface
-        run: ./run-build.sh
+        run: |
+          chmod 755 run-build.sh
+          ./run-build.sh
       - name: Check the result
         run: ls -al java
