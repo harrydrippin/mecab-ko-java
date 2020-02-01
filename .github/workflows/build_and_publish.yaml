@@ -103,5 +103,5 @@ jobs:
         run: |
           chmod 755 run-build.sh
           ./run-build.sh
-      - name: Check the result
-        run: ls -al jni-interface
+      - name: Publish to Github Packages
+        run: gradle publish
