@@ -105,4 +105,4 @@ jobs:
           ./run-build.sh
       - name: Publish to Github Packages
         working-directory: jni-interface
-        run: USERNAME=harrydrippin gradle publish
+        run: USERNAME=harrydrippin GITHUB_TOKEN={{ secrets.GITHUB_TOKEN }} gradle publish
