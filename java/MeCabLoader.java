@@ -2,8 +2,8 @@ package org.chasen.mecab;
 
 import java.io.File;
 
-public class NativeLibraryLoader {
-    public static void loadLibrary() {
+public class MeCabLoader {
+    public static void initialize() {
         System.out.println("Loading MeCab library...");
         String targetFolder = "/lib";
         String libraryFileName = "libMeCab";
