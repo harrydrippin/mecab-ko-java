@@ -28,6 +28,12 @@ jobs:
     needs: build-jni
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@master
+      - name: Install MeCab
+        run: |
+          ./configure
+          make
+          make install
       - name: Download artifact from previous job
         uses: actions/download-artifact@v1
         with:
@@ -48,6 +54,12 @@ jobs:
     needs: build-jni
     runs-on: macOS-latest
     steps:
+      - uses: actions/checkout@master
+      - name: Install MeCab
+        run: |
+          ./configure
+          make
+          make install
       - name: Download artifact from previous job
         uses: actions/download-artifact@v1
         with:
