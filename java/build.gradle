@@ -5,6 +5,10 @@ plugins {
 publishing {
   publications {
     maven(MavenPublication) {
+      groupId = 'io.github.harrydrippin'
+      artifactId = 'mecab-ko-java'
+      version = '1.0.0'
+
       artifact 'MeCab.jar'
     }
   }
