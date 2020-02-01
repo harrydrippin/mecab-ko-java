@@ -41,13 +41,13 @@ jobs:
       - name: Build library
         working-directory: jni-interface
         run: |
-          chmod 755 ./run-linux.sh
+          chmod 755 run-linux.sh
           ./run-linux.sh
       - name: Store library as artifact
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-linux
-          path: java/libMeCab.so
+          path: jni-interface/libMeCab.so
 
   build-library-macos:
     name: MeCab library build - macOS
@@ -67,13 +67,13 @@ jobs:
       - name: Build library
         working-directory: jni-interface
         run: |
-          chmod 755 ./run-macos.sh
+          chmod 755 run-macos.sh
           ./run-macos.sh
       - name: Store library as artifact
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-macos
-          path: java/libMeCab.dylib
+          path: jni-interface/libMeCab.dylib
   
   build-and-publish:
     name: Build and Publish
