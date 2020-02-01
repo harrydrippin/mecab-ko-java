@@ -1,0 +1,94 @@
+name: Build and Publish
+on: [push]
+jobs:
+  build-jni:
+    name: Build JNI interface with SWIG
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup OpenJDK 13
+        uses: joschi/setup-jdk@v1
+        with:
+          java-version: openjdk13
+          architecture: x64
+      - name: Preparation for build
+        run: |
+          apt-get update -y
+          apt-get install -y swig
+      - name: Build interface with SWIG
+        run: |
+          cd swig && make java
+          zip -r swig-result.zip java
+      - name: Store JNI interface as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: jni-interface
+          path: swig-result.zip
+  
+  build-library-linux:
+    name: MeCab library build - Linux
+    needs: build-jni
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Download artifact from previous job
+        uses: actions/download-artifact@v1
+        with:
+          name: jni-interface
+      - name: Unzip and build
+        run: |
+          unzip jni-interface.zip
+          cd java && ./run-linux.sh
+      - name: Store library as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: mecab-library-linux
+          path: java/libMeCab.so
+
+  build-library-macos:
+    name: MeCab library build - macOS
+    needs: build-jni
+    runs-on: macOS-latest
+    steps:
+      - name: Download artifact from previous job
+        uses: actions/download-artifact@v1
+        with:
+          name: jni-interface
+      - name: Unzip and build
+        run: |
+          unzip jni-interface.zip
+          cd java && ./run-macos.sh
+      - name: Store library as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: mecab-library-macos
+          path: java/libMeCab.dylib
+  
+  build-and-publish:
+    name: Build and Publish
+    needs: [build-library-linux, build-library-macos]
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup OpenJDK 13
+        uses: joschi/setup-jdk@v1
+        with:
+          java-version: openjdk13
+          architecture: x64
+      - name: Download JNI interface
+        uses: actions/download-artifact@v1
+        with:
+          name: jni-interface
+      - name: Unzip JNI interface
+        run: |
+          unzip jni-interface.zip
+      - name: Download prebuilt library - Linux
+        uses: actions/download-artifact@v1
+        with:
+          name: mecab-library-linux
+      - name: Download prebuilt library - macOS
+        uses: actions/download-artifact@v1
+        with:
+          name: mecab-library-macos
+      - name: Build JAR
+        run: cd java && ./run-build.sh
+      - name: Check the result
+        run: ls -al java
