@@ -88,18 +88,18 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: jni-interface
-      - name: Unzip JNI interface
-        run: unzip jni-interface.zip
       - name: Download prebuilt library - Linux
         uses: actions/download-artifact@v1
         with:
           name: mecab-library-linux
+          path: jni-interface
       - name: Download prebuilt library - macOS
         uses: actions/download-artifact@v1
         with:
           name: mecab-library-macos
+          path: jni-interface
       - name: Build JAR
-        working-directory: java
+        working-directory: jni-interface
         run: ./run-build.sh
       - name: Check the result
         run: ls -al java
