@@ -9,3 +9,4 @@ mecabrc
 perl
 stamp-h1
 .DS_Store
+.vscode/
