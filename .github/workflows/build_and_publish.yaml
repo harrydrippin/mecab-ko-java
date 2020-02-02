@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-linux
-          path: java/lib/libMeCab.so
+          path: java/org/chasen/mecab/native/linux/libMeCab.so
 
   build-library-macos:
     name: MeCab library build - macOS
@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-macos
-          path: java/lib/libMeCab.dylib
+          path: java/org/chasen/mecab/native/macos/libMeCab.dylib
   
   build-and-publish:
     name: Build and Publish
@@ -92,12 +92,12 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: mecab-library-linux
-          path: java/lib
+          path: java/org/chasen/mecab/native/linux/
       - name: Download prebuilt library - macOS
         uses: actions/download-artifact@v1
         with:
           name: mecab-library-macos
-          path: java/lib
+          path: java/org/chasen/mecab/native/macos/
       - name: Build JAR
         working-directory: java
         env:
