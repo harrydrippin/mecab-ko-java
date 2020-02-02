@@ -4,31 +4,51 @@
  *
  * 라이브러리를 사용할 때 Shared Library를 불러올 수 있도록 수정되었습니다.
  * ----------------------------------------------------------------------------- */
-
 package org.chasen.mecab;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 public class MeCab implements MeCabConstants {
     public static synchronized void initialize(String osName) {
         System.out.println("Loading MeCab library...");
-        String targetFolder = "/lib";
-        String libraryFileName = "libMeCab";
-        if (osName.indexOf("Mac") >= 0) {
-            System.out.println("Environment macOS detected.");
-            libraryFileName += ".dylib";
+
+        String nativeLibPath = "/org/chasen/mecab/native";
+        if (osName.indexOf("Mac") <= 0) {
+            nativeLibPath = nativeLibPath + "/macos";
         } else {
-            System.out.println("Environment Linux detected.");
-            libraryFileName = ".so";
+            nativeLibPath = nativeLibPath + "/linux";
         }
-        
-        File libraryFile = new File(targetFolder, libraryFileName);
+
+		String nativeLibName = System.mapLibraryName("MeCab");
+        String nativeLibFilePath = nativeLibPath + "/" + nativeLibName;
+		if (MeCab.class.getResource(nativeLibFilePath) == null) {
+            System.out.println("Error loading native library: " + nativeLibPath + "/" + nativeLibName);
+            System.exit(1);
+		}
+
+		// Temporary library folder
+		String tempFolder = new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+        File extractedLibFile = new File(tempFolder, nativeLibName);
+
         try {
-            System.load(libraryFile.getAbsolutePath());
-            System.out.println("MeCab was successfully loaded.");
+            // Extract resource files
+            InputStream reader = MeCab.class.getResourceAsStream(nativeLibFilePath);
+            FileOutputStream writer = new FileOutputStream(extractedLibFile);
+            byte[] buffer = new byte[1024];
+            int bytesRead = 0;
+            while ((bytesRead = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, bytesRead);
+            }
+
+            writer.close();
+            reader.close();
+
+            System.load(extractedLibFile.getAbsolutePath());
         } catch (Exception e) {
-            System.out.println("Exception was occurred while loading library file");
-            e.printStackTrace();
+            System.err.println(e);
             System.exit(1);
         }
     }

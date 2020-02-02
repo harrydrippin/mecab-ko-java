@@ -20,7 +20,7 @@ jobs:
       - name: Store JNI interface as artifact
         uses: actions/upload-artifact@v1
         with:
-          name: jni-interface
+          name: java
           path: java
   
   build-library-linux:
@@ -37,9 +37,9 @@ jobs:
       - name: Download artifact from previous job
         uses: actions/download-artifact@v1
         with:
-          name: jni-interface
+          name: java
       - name: Build library
-        working-directory: jni-interface
+        working-directory: java
         run: |
           chmod 755 run-linux.sh
           ./run-linux.sh
@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-linux
-          path: jni-interface/lib/libMeCab.so
+          path: java/lib/libMeCab.so
 
   build-library-macos:
     name: MeCab library build - macOS
@@ -63,9 +63,9 @@ jobs:
       - name: Download artifact from previous job
         uses: actions/download-artifact@v1
         with:
-          name: jni-interface
+          name: java
       - name: Build library
-        working-directory: jni-interface
+        working-directory: java
         run: |
           chmod 755 run-macos.sh
           ./run-macos.sh
@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-macos
-          path: jni-interface/lib/libMeCab.dylib
+          path: java/lib/libMeCab.dylib
   
   build-and-publish:
     name: Build and Publish
@@ -87,24 +87,27 @@ jobs:
       - name: Download JNI interface
         uses: actions/download-artifact@v1
         with:
-          name: jni-interface
+          name: java
       - name: Download prebuilt library - Linux
         uses: actions/download-artifact@v1
         with:
           name: mecab-library-linux
-          path: jni-interface/lib
+          path: java/lib
       - name: Download prebuilt library - macOS
         uses: actions/download-artifact@v1
         with:
           name: mecab-library-macos
-          path: jni-interface/lib
+          path: java/lib
       - name: Build JAR
-        working-directory: jni-interface
+        working-directory: java
+        env:
+          PACKAGE: org/chasen/mecab
         run: |
-          chmod 755 run-build.sh
-          ./run-build.sh
+          cp -f MeCab.java $PACKAGE/MeCab.java
+          javac $PACKAGE/*.java
+          jar cfv MeCab.jar $PACKAGE/*.class $PACKAGE/native/**/*
       - name: Publish to Github Packages
-        working-directory: jni-interface
+        working-directory: java
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gradle publish
