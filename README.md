@@ -1,4 +1,4 @@
-# mecab-ko 소개
+# mecab-ko-java
 
 [mecab-ko-java](https://github.com/harrydrippin/mecab-ko-java)는 [은전한닢 프로젝트](http://eunjeon.blogspot.kr/)의 [mecab-ko](https://bitbucket.org/eunjeon/mecab-ko) 프로젝트의 Mirror입니다.
 
@@ -6,7 +6,26 @@ SWIG를 통해 빌드된 MeCab의 Java Interface를 Maven Repository에서 불�
 
 ## 사용 방법
 
-추후 추가됩니다.
+프로젝트의 build.gradle에 다음을 추가합니다.
+
+```groovy
+repositories {
+	maven {
+		url "https://maven.pkg.github.com/harrydrippin/mecab-ko-java"
+
+		credentials {
+			username "<USERNAME>"
+			password "<GITHUB_PERSONAL_ACCESS_TOKEN>"
+		}
+	}
+}
+
+dependencies {
+	implementation 'io.github.harrydrippin:mecab-ko-java:<VERSION>'
+}
+```
+
+사용할 버전은 [Package 페이지](https://github.com/harrydrippin/mecab-ko-java/packages/118290)를 참조하십시오.
 
 # 라이센스
 
