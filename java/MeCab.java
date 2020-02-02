@@ -12,11 +12,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 public class MeCab implements MeCabConstants {
-    public static synchronized void initialize(String osName) {
+    public static synchronized void initialize() {
         System.out.println("Loading MeCab library...");
 
         String nativeLibPath = "/org/chasen/mecab/native";
-        if (osName.indexOf("Mac") <= 0) {
+        if (System.getProperty("os.name").indexOf("Mac") <= 0) {
             nativeLibPath = nativeLibPath + "/macos";
         } else {
             nativeLibPath = nativeLibPath + "/linux";
