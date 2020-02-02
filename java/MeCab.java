@@ -22,15 +22,15 @@ public class MeCab implements MeCabConstants {
             nativeLibPath = nativeLibPath + "/linux";
         }
 
-		String nativeLibName = System.mapLibraryName("MeCab");
+        String nativeLibName = System.mapLibraryName("MeCab");
         String nativeLibFilePath = nativeLibPath + "/" + nativeLibName;
-		if (MeCab.class.getResource(nativeLibFilePath) == null) {
+        if (MeCab.class.getResource(nativeLibFilePath) == null) {
             System.out.println("Error loading native library: " + nativeLibPath + "/" + nativeLibName);
             System.exit(1);
-		}
+        }
 
-		// Temporary library folder
-		String tempFolder = new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+        // Temporary library folder
+        String tempFolder = new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
         File extractedLibFile = new File(tempFolder, nativeLibName);
 
         try {
