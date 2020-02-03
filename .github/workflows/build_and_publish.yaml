@@ -82,7 +82,7 @@ jobs:
       - name: Store MeCab library as artifact
         uses: actions/upload-artifact@v1
         with:
-          name: mecab-library-linux-origin
+          name: mecab-library-macos-origin
           path: /usr/local/lib/libmecab.dylib
   
   build-and-publish:
