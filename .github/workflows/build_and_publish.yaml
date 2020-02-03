@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-linux
-          path: java/org/chasen/mecab/native/linux/libMeCab.so
+          path: java/org/chasen/mecab/native/linux/libMeCabWrapper.so
       - name: Store MeCab library as artifact
         uses: actions/upload-artifact@v1
         with:
@@ -78,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: mecab-library-macos
-          path: java/org/chasen/mecab/native/macos/libMeCab.dylib
+          path: java/org/chasen/mecab/native/macos/libMeCabWrapper.dylib
       - name: Store MeCab library as artifact
         uses: actions/upload-artifact@v1
         with:
